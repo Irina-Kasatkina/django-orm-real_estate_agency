@@ -4,7 +4,8 @@ from .models import Flat
 
 
 class FlatAdmin(admin.ModelAdmin):
-    search_fields = ['town', 'address']
+    readonly_fields = ('created_at',)
+    search_fields = ('town', 'address')
 
 
 admin.site.register(Flat, FlatAdmin)
