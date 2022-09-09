@@ -1,8 +1,11 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
 
 class Flat(models.Model):
+    """ Квартира. """
+
     owner = models.CharField('ФИО владельца', max_length=200)
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     created_at = models.DateTimeField(
@@ -50,3 +53,21 @@ class Flat(models.Model):
 
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
+
+
+class Complaint(models.Model):
+    """ Жалоба. """
+
+    author = models.ForeignKey(
+        User,
+        related_name='complaints',
+        verbose_name='Кто жаловался',
+        on_delete=models.CASCADE
+    )
+    flat = models.ForeignKey(
+        Flat,
+        related_name='complaints',
+        verbose_name='Квартира, на которую пожаловались',
+        on_delete=models.CASCADE
+    )
+    text = models.TextField('Текст жалобы')   
