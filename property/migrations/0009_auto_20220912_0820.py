@@ -6,7 +6,8 @@ import phonenumbers
 
 def update_owner_pure_phone(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.exclude(owners_phonenumber__isnull=True):
+    flat_set = Flat.objects.exclude(owners_phonenumber__isnull=True)
+    for flat in flat_set.iterator():
         try:
             phonenumber = phonenumbers.parse(flat.owners_phonenumber, 'RU')
         except phonenumbers.NumberParseException:
